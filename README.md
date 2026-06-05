@@ -1,6 +1,19 @@
-# BoxRFID – Filament Tag Manager
+# BoxRFID-Proxmark3 – Filament Tag Manager
 
-BoxRFID is a Windows desktop app (Electron) to read and write NFC/RFID tags used by QIDI Box, a multi color system for QIDI Plus 4 and QIDI Q2 3D printers. It lets you set material, color, and manufacturer codes (not yet supported by QIDI Box, maybe in future), read tags, and auto-read when a tag is detected.
+> **Fork of [TinkerBarn/BoxRFID](https://github.com/TinkerBarn/BoxRFID) with native Proxmark3 support**
+
+[![Current Release](https://img.shields.io/github/release/Banabas/BoxRFID-Proxmark3.svg)](https://github.com/Banabas/BoxRFID-Proxmark3/releases/latest)
+![GitHub Release Date](https://img.shields.io/github/release-date/Banabas/BoxRFID-Proxmark3)
+![GitHub last commit](https://img.shields.io/github/last-commit/Banabas/BoxRFID-Proxmark3)
+![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/Banabas/BoxRFID-Proxmark3/total?label=downloads%20total&color=%23f0cc59)
+![GitHub Downloads (all assets, latest release)](https://img.shields.io/github/downloads/Banabas/BoxRFID-Proxmark3/latest/total?label=downloads%20latest%20Release&color=%23f0cc59)
+
+![GitHub watchers](https://img.shields.io/github/watchers/Banabas/BoxRFID-Proxmark3?style=social)
+[![GitHub stars](https://img.shields.io/github/stars/Banabas/BoxRFID-Proxmark3.svg?style=social&label=Star)](https://github.com/Banabas/BoxRFID-Proxmark3/stargazers/)
+
+BoxRFID-Proxmark3 is a Windows desktop app (Electron) to read and write NFC/RFID tags used by QIDI Box, a multi color system for QIDI Plus 4 and QIDI Q2 3D printers. It lets you set material, color, and manufacturer codes, read tags, and auto-read when a tag is detected.
+
+This fork adds **native Proxmark3 support** — no ACR122U or PC/SC driver needed.
 
 - Platform: Windows (Electron)
 - Version: 1.2.0
