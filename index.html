@@ -511,6 +511,30 @@
                     <input type="file" id="officialCfgFileInput" accept="*/*" style="display:none;">
                 </div>
 
+                <!-- Reader type selector -->
+                <div class="form-group">
+                    <label id="readerTypeLabel">Lesegerät-Typ:</label>
+                    <select id="readerTypeSelect" class="setup-input" style="margin-top:6px;">
+                        <option value="pcsc" id="readerTypePcscOpt">PC/SC (ACR122U, etc.)</option>
+                        <option value="proxmark3" id="readerTypePm3Opt">Proxmark3</option>
+                    </select>
+                </div>
+                <div id="pm3PathGroup" style="display:none; margin-top:-4px; margin-bottom:16px;">
+                    <label id="pm3PathLabel" style="font-size:13px; font-weight:600; color:#555; display:block; margin-bottom:6px;">Proxmark3-Executable:</label>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="pm3PathInput" class="setup-input" placeholder="pm3">
+                        <button class="btn-small btn-add" id="choosePm3Btn" style="white-space:nowrap;">Wählen</button>
+                    </div>
+                    <label id="pm3ComPortLabel" style="font-size:13px; font-weight:600; color:#555; display:block; margin-top:10px; margin-bottom:6px;">COM Port:</label>
+                    <div style="display:flex; gap:8px; align-items:center;">
+                        <input type="text" id="pm3ComPortInput" class="setup-input" placeholder="COM3" style="max-width:120px;">
+                        <button class="btn-small btn-add" id="savePm3Btn">Speichern</button>
+                    </div>
+                    <div class="manufacturer-warning" id="pm3Info" style="margin-top:8px;">
+                        <p id="pm3InfoText"></p>
+                    </div>
+                </div>
+
                 <!-- Reset app preferences -->
                 <div class="form-group">
                     <button class="btn-small btn-reset" id="clearPrefsBtn">App‑Einstellungen zurücksetzen</button>
@@ -609,6 +633,13 @@
                 officialCfgPleaseChoose: "Bitte wählen Sie eine Konfigurationsdatei aus.",
                 officialCfgEphemeral: "Es konnte nur der Dateiname gelesen werden. Bitte wählen Sie die Datei über den Dialog erneut, um den vollständigen Pfad zu speichern.",
                 officialCfgInfoText: "Wenn diese Option aktiviert ist, werden Materialien und Hersteller aus der ausgewählten Datei verwendet. Farben werden weiterhin aus der App verwendet.",
+                readerTypeLabel: "Lesegerät-Typ:",
+                readerTypePcsc: "PC/SC (ACR122U, etc.)",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Proxmark3-Executable:",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "Wählen",
+                pm3InfoText: "Pfad zur pm3-Executable (z. B. pm3 oder C:\\pm3\\pm3.bat). Leer lassen für automatische Suche im PATH.",
                 colors: {
                     "#FAFAFA": "Weiß", "#060606": "Schwarz", "#D9E3ED": "Hellgrau", "#5CF30F": "Hellgrün",
                     "#63E492": "Mintgrün", "#2850FF": "Blau", "#FE98FE": "Magenta", "#DFD628": "Gelb",
@@ -703,6 +734,13 @@
                 officialCfgPleaseChoose: "Please choose a configuration file.",
                 officialCfgEphemeral: "Only file name could be read. Please reselect the file via dialog to store the full path.",
                 officialCfgInfoText: "When enabled, materials and manufacturers are loaded from the selected file. Colors continue to use the app's list.",
+                readerTypeLabel: "Reader Type:",
+                readerTypePcsc: "PC/SC (ACR122U, etc.)",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Proxmark3 Executable:",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "Choose",
+                pm3InfoText: "Path to the pm3 executable (e.g. pm3 or C:\\pm3\\pm3.bat). Leave empty to search in PATH automatically.",
                 colors: {
                     "#FAFAFA": "White", "#060606": "Black", "#D9E3ED": "Light Gray", "#5CF30F": "Light Green",
                     "#63E492": "Mint Green", "#2850FF": "Blue", "#FE98FE": "Magenta", "#DFD628": "Yellow",
@@ -797,6 +835,13 @@
                 officialCfgPleaseChoose: "Seleccione un archivo de configuración.",
                 officialCfgEphemeral: "Solo se pudo leer el nombre del archivo. Vuelva a seleccionarlo mediante el diálogo para guardar la ruta completa.",
                 officialCfgInfoText: "Si está activado, los materiales y fabricantes se cargan del archivo seleccionado. Los colores siguen usando la lista de la app.",
+                readerTypeLabel: "Tipo de lector:",
+                readerTypePcsc: "PC/SC (ACR122U, etc.)",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Ejecutable Proxmark3:",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "Elegir",
+                pm3InfoText: "Ruta al ejecutable pm3 (p. ej. pm3 o C:\\pm3\\pm3.bat). Deje vacío para buscar automáticamente en el PATH.",
                 colors: {
                     "#FAFAFA": "Blanco", "#060606": "Negro", "#D9E3ED": "Gris Claro", "#5CF30F": "Verde Claro",
                     "#63E492": "Verde Menta", "#2850FF": "Azul", "#FE98FE": "Magenta", "#DFD628": "Amarillo",
@@ -891,6 +936,13 @@
                 officialCfgPleaseChoose: "Escolha um arquivo de configuração.",
                 officialCfgEphemeral: "Apenas o nome do arquivo pôde ser lido. Selecione novamente pelo diálogo para salvar o caminho completo.",
                 officialCfgInfoText: "Quando ativado, materiais e fabricantes são carregados do arquivo selecionado. As cores continuam usando a lista do app.",
+                readerTypeLabel: "Tipo de leitor:",
+                readerTypePcsc: "PC/SC (ACR122U, etc.)",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Executável Proxmark3:",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "Escolher",
+                pm3InfoText: "Caminho para o executável pm3 (ex. pm3 ou C:\\pm3\\pm3.bat). Deixe vazio para buscar automaticamente no PATH.",
                 colors: {
                     "#FAFAFA": "Branco", "#060606": "Preto", "#D9E3ED": "Cinza Claro", "#5CF30F": "Verde Claro",
                     "#63E492": "Verde Menta", "#2850FF": "Azul", "#FE98FE": "Magenta", "#DFD628": "Amarelo",
@@ -985,6 +1037,13 @@
                 officialCfgPleaseChoose: "Veuillez choisir un fichier de configuration.",
                 officialCfgEphemeral: "Seul le nom du fichier a pu être lu. Veuillez le resélectionner via le dialogue pour enregistrer le chemin complet.",
                 officialCfgInfoText: "Lorsque l’option est activée, les matériaux et fabricants sont chargés depuis le fichier sélectionné. Les couleurs continuent d’utiliser la liste de l’application.",
+                readerTypeLabel: "Type de lecteur :",
+                readerTypePcsc: "PC/SC (ACR122U, etc.)",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Exécutable Proxmark3 :",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "Choisir",
+                pm3InfoText: "Chemin vers l’exécutable pm3 (ex. pm3 ou C:\\pm3\\pm3.bat). Laisser vide pour rechercher automatiquement dans le PATH.",
                 colors: {
                     "#FAFAFA": "Blanc", "#060606": "Noir", "#D9E3ED": "Gris Clair", "#5CF30F": "Vert Clair",
                     "#63E492": "Vert Menthe", "#2850FF": "Bleu", "#FE98FE": "Magenta", "#DFD628": "Jaune",
@@ -1079,6 +1138,13 @@
                 officialCfgPleaseChoose: "请选择一个配置文件。",
                 officialCfgEphemeral: "只能读取文件名。请通过对话框重新选择该文件以保存完整路径。",
                 officialCfgInfoText: "启用后，材料和制造商将从所选文件加载。颜色仍使用应用内列表。",
+                readerTypeLabel: "读卡器类型：",
+                readerTypePcsc: "PC/SC（ACR122U 等）",
+                readerTypePm3: "Proxmark3",
+                pm3PathLabel: "Proxmark3 可执行文件：",
+                pm3PathPlaceholder: "pm3",
+                choosePm3Btn: "选择",
+                pm3InfoText: "pm3 可执行文件的路径（如 pm3 或 C:\\pm3\\pm3.bat）。留空则自动在 PATH 中搜索。",
                 colors: {
                     "#FAFAFA": "白色", "#060606": "黑色", "#D9E3ED": "浅灰色", "#5CF30F": "浅绿色",
                     "#63E492": "薄荷绿", "#2850FF": "蓝色", "#FE98FE": "洋红色", "#DFD628": "黄色",
@@ -1090,19 +1156,20 @@
             }
         };
 
-        // default materials
+        // default materials — original generic names preserved; QIDI-only entries added from officiall_filas_list.cfg
         const DEFAULT_MATERIALS = {
             1: "PLA", 2: "PLA Matte", 3: "PLA Metal", 4: "PLA Silk", 5: "PLA-CF", 6: "PLA-Wood",
             7: "PLA Basic", 8: "PLA Matte Basic",
+            10: "Support For PLA",
             11: "ABS", 12: "ABS-GF", 13: "ABS-Metal", 14: "ABS-Odorless",
-            18: "ASA", 19: "ASA-AERO",
-            24: "UltraPA", 25: "PA12-CF", 26: "UltraPA-CF25",
+            18: "ASA", 19: "ASA-AERO", 20: "ASA-CF",
+            23: "PC", 24: "UltraPA", 25: "PA12-CF", 26: "UltraPA-CF25",
             30: "PAHT-CF", 31: "PAHT-GF", 32: "Support For PAHT", 33: "Support For PET/PA",
-            34: "PC/ABS-FR",
+            34: "PC/ABS-FR", 35: "TPEE", 36: "PEBA",
             37: "PET-CF", 38: "PET-GF",
-            39: "PETG Basic", 40: "PETG-Though", 41: "PETG",
-            44: "PPS-CF", 45: "PETG Translucent",
-            47: "PVA", 49: "TPU-AERO", 50: "TPU"
+            39: "PETG Basic", 40: "PETG-Tough", 41: "PETG", 42: "PETG-CF", 43: "PETG-GF",
+            44: "PPS-CF", 45: "PETG Translucent", 46: "PPS-GF",
+            47: "PVA", 48: "TPU-AERO 64D", 49: "TPU-AERO", 50: "TPU"
         };
         const DEFAULT_MANUFACTURERS = { 0: "Generic", 1: "QIDI" };
         const DEFAULT_COLORS = {
@@ -1140,6 +1207,10 @@
 
         let autoReadActive = false;
         let lastAutoDataSerialized = null;
+
+        let readerType = 'pcsc';
+        let pm3Path = 'pm3';
+        let pm3ComPort = '';
 
         const elements = {
             manufacturerSection: document.getElementById('manufacturerSection'),
@@ -1202,7 +1273,14 @@
             officialCfgFileInput: document.getElementById('officialCfgFileInput'),
             // Labels that need disambiguation
             manufacturerSelectLabel: document.getElementById('manufacturerSelectLabel'),
-            manufacturerUseLabel: document.getElementById('manufacturerUseLabel')
+            manufacturerUseLabel: document.getElementById('manufacturerUseLabel'),
+            // Reader type controls
+            readerTypeSelect: document.getElementById('readerTypeSelect'),
+            pm3PathGroup: document.getElementById('pm3PathGroup'),
+            pm3PathInput: document.getElementById('pm3PathInput'),
+            pm3ComPortInput: document.getElementById('pm3ComPortInput'),
+            choosePm3Btn: document.getElementById('choosePm3Btn'),
+            pm3InfoText: document.getElementById('pm3InfoText')
         };
 
         const tooltipEl = document.getElementById('tooltip');
@@ -1238,6 +1316,10 @@
             officialCfgPath = saved.officialCfgPath || '';
             officialCfgIsEphemeral = !!saved.officialCfgIsEphemeral;
 
+            readerType = saved.readerType || 'pcsc';
+            pm3Path = saved.pm3Path || 'pm3';
+            pm3ComPort = saved.pm3ComPort || '';
+
             applyDataSource(false);
         }
 
@@ -1250,7 +1332,10 @@
                 useManufacturer,
                 useOfficialCfg,
                 officialCfgPath,
-                officialCfgIsEphemeral
+                officialCfgIsEphemeral,
+                readerType,
+                pm3Path,
+                pm3ComPort
             };
             localStorage.setItem('rfidSettings', JSON.stringify(settings));
         }
@@ -1354,6 +1439,19 @@
 
             updateMaterialCodeOptions(true);
             updateManufacturerCodeOptions(true);
+
+            const readerTypeLabelEl = document.getElementById('readerTypeLabel');
+            if (readerTypeLabelEl) readerTypeLabelEl.textContent = t.readerTypeLabel || 'Reader Type:';
+            const pm3LabelEl = document.getElementById('pm3PathLabel');
+            if (pm3LabelEl) pm3LabelEl.textContent = t.pm3PathLabel || 'Proxmark3 Executable:';
+            if (elements.pm3PathInput) elements.pm3PathInput.placeholder = t.pm3PathPlaceholder || 'pm3';
+            if (elements.choosePm3Btn) elements.choosePm3Btn.textContent = t.choosePm3Btn || 'Choose';
+            if (elements.pm3InfoText) elements.pm3InfoText.textContent = t.pm3InfoText || '';
+
+            const pcscOpt = document.getElementById('readerTypePcscOpt');
+            if (pcscOpt) pcscOpt.textContent = t.readerTypePcsc || 'PC/SC (ACR122U, etc.)';
+            const pm3Opt = document.getElementById('readerTypePm3Opt');
+            if (pm3Opt) pm3Opt.textContent = t.readerTypePm3 || 'Proxmark3';
         }
 
         function updateMaterialSelect() {
@@ -1605,6 +1703,25 @@
         function toggleManufacturerSection() {
             elements.manufacturerSection.style.display = useManufacturer ? 'block' : 'none';
             elements.tabManufacturers.style.display = useManufacturer ? 'block' : 'none';
+        }
+
+        function togglePm3Controls() {
+            const show = readerType === 'proxmark3';
+            elements.pm3PathGroup.style.display = show ? 'block' : 'none';
+            if (show) {
+                if (elements.pm3PathInput) elements.pm3PathInput.value = pm3Path || '';
+                if (elements.pm3ComPortInput) elements.pm3ComPortInput.value = pm3ComPort || '';
+            }
+        }
+
+        function applyReaderConfig() {
+            if (window.electronAPI && window.electronAPI.configureReader) {
+                window.electronAPI.configureReader({
+                    type: readerType,
+                    pm3Path: pm3Path || 'pm3',
+                    pm3ComPort: pm3ComPort || ''
+                });
+            }
         }
 
         function toggleOfficialCfgControls() {
@@ -1881,6 +1998,9 @@
                 setOfficialPathDisplay();
                 toggleOfficialCfgControls();
 
+                if (elements.readerTypeSelect) elements.readerTypeSelect.value = readerType;
+                togglePm3Controls();
+
                 updateMaterialsList();
                 updateManufacturersList();
                 toggleManufacturerSection();
@@ -2071,6 +2191,70 @@
                 });
             }
 
+            // Reader type selector
+            if (elements.readerTypeSelect) {
+                elements.readerTypeSelect.addEventListener('change', (e) => {
+                    readerType = e.target.value;
+                    togglePm3Controls();
+                    if (readerType === 'proxmark3') {
+                        pm3Path = elements.pm3PathInput ? (elements.pm3PathInput.value.trim() || 'pm3') : 'pm3';
+                    }
+                    saveSettings();
+                    applyReaderConfig();
+                });
+            }
+
+            if (elements.pm3PathInput) {
+                elements.pm3PathInput.addEventListener('change', () => {
+                    pm3Path = elements.pm3PathInput.value.trim() || 'pm3';
+                    saveSettings();
+                    applyReaderConfig();
+                });
+            }
+
+            if (elements.pm3ComPortInput) {
+                elements.pm3ComPortInput.addEventListener('change', () => {
+                    pm3ComPort = elements.pm3ComPortInput.value.trim();
+                    saveSettings();
+                    applyReaderConfig();
+                });
+            }
+
+            const savePm3Btn = document.getElementById('savePm3Btn');
+            if (savePm3Btn) {
+                savePm3Btn.addEventListener('click', () => {
+                    pm3Path = elements.pm3PathInput ? elements.pm3PathInput.value.trim() || 'pm3' : 'pm3';
+                    pm3ComPort = elements.pm3ComPortInput ? elements.pm3ComPortInput.value.trim() : '';
+                    saveSettings();
+                    applyReaderConfig();
+                    savePm3Btn.textContent = '✓';
+                    setTimeout(() => {
+                        const t = translations[currentLanguage] || translations.de;
+                        savePm3Btn.textContent = t.saveSettingsBtn || 'Speichern';
+                    }, 1500);
+                });
+            }
+
+            if (elements.choosePm3Btn) {
+                elements.choosePm3Btn.addEventListener('click', async () => {
+                    if (window.electronAPI && window.electronAPI.openFileDialog) {
+                        const res = await window.electronAPI.openFileDialog({
+                            filters: [
+                                { name: 'Executables', extensions: ['exe', 'bat', 'cmd', '*'] },
+                                { name: 'All Files', extensions: ['*'] }
+                            ],
+                            properties: ['openFile']
+                        });
+                        if (res && !res.canceled && res.filePaths && res.filePaths[0]) {
+                            pm3Path = res.filePaths[0];
+                            if (elements.pm3PathInput) elements.pm3PathInput.value = pm3Path;
+                            saveSettings();
+                            applyReaderConfig();
+                        }
+                    }
+                });
+            }
+
             // Reset app preferences button handler
             if (elements.clearPrefsBtn) {
                 elements.clearPrefsBtn.addEventListener('click', () => {
@@ -2119,9 +2303,13 @@
             updateManufacturerSelect();
             toggleManufacturerSection();
             toggleOfficialCfgControls();
+            togglePm3Controls();
             initTabs();
             initEventListeners();
             setAutoReadUi(false);
+
+            // Sync reader config with main process
+            applyReaderConfig();
 
             // If official cfg is enabled, validate and load on startup; prompt if not accessible
             if (useOfficialCfg) {

@@ -28,6 +28,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // System info
   platform: process.platform,
 
+  // Reader configuration (pcsc vs proxmark3)
+  configureReader: (config) => ipcRenderer.invoke('rfid-reader-config', config),
+
   // Window controls
   minimizeWindow: () => ipcRenderer.invoke('minimize-window'),
   maximizeWindow: () => ipcRenderer.invoke('maximize-window'),

@@ -29,13 +29,15 @@
       "!**/.github/**",
       "!**/.vscode/**",
       "!**/node_modules/.cache/**",
+      "!Phyton/**",
       "!**/*.md",
       "!**/*.map",
       "!builder-debug.yml",
       "!builder-effective-config.yaml",
       "!latest.yml"
     ],
-    "asar": true,
+    "asar": false,
+    "npmRebuild": false,
     "win": {
       "target": [
         {

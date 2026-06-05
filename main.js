@@ -53,6 +53,36 @@ function getNfcService(options = {}) {
     throw new Error('NFC_NOT_CONNECTED');
   }
 }
+
+// Proxmark3 reader support
+let readerConfig = { type: 'pcsc', pm3Path: 'pm3', pm3ComPort: '' };
+let pm3Service = null;
+let Proxmark3ServiceCtor = null;
+
+function tryGetActiveService() {
+  if (readerConfig.type === 'proxmark3') return pm3Service;
+  return tryGetNfcService();
+}
+
+function getActiveService(options = {}) {
+  if (readerConfig.type === 'proxmark3') {
+    if (!pm3Service) {
+      try {
+        if (!Proxmark3ServiceCtor) Proxmark3ServiceCtor = require('./proxmark3-service');
+        pm3Service = new Proxmark3ServiceCtor(
+          readerConfig.pm3Path || 'pm3',
+          readerConfig.pm3ComPort || null
+        );
+      } catch (e) {
+        pm3Service = null;
+        console.error('Proxmark3 init failed:', e && e.message ? e.message : e);
+        throw new Error('NFC_NOT_CONNECTED');
+      }
+    }
+    return pm3Service;
+  }
+  return getNfcService(options);
+}
 let isBusy = false;
 
 function toMessageKey(err) {
@@ -110,7 +140,7 @@ mainWindow.once('ready-to-show', () => {
   // Optional: initialize NFC after UI is visible, so the connection indicator can turn green quickly
   // without risking a "headless" startup on systems where PC/SC init blocks.
   setTimeout(() => {
-    try { getNfcService({ forceRetry: false }); } catch {}
+    try { getActiveService({ forceRetry: false }); } catch {}
   }, 800);
 });
 
@@ -145,7 +175,7 @@ function startAutoLoop() {
       if (!autoEnabled) return;
       if (isBusy) return;
 
-      const svc = tryGetNfcService();
+      const svc = tryGetActiveService();
       if (!svc) return;
       const uid = svc.getCurrentUID();
       if (uid && uid !== lastAutoUID) {
@@ -181,12 +211,33 @@ function stopAutoLoop() {
   lastAutoUID = null;
 }
 
+// IPC handler: reader configuration (pcsc vs proxmark3)
+ipcMain.handle('rfid-reader-config', (_event, config) => {
+  if (config) {
+    const typeChanged = config.type !== readerConfig.type;
+    const pathChanged = config.pm3Path !== undefined && config.pm3Path !== readerConfig.pm3Path;
+    const portChanged = config.pm3ComPort !== undefined && config.pm3ComPort !== readerConfig.pm3ComPort;
+    if ((typeChanged || pathChanged || portChanged) && pm3Service) {
+      pm3Service.destroy();
+      pm3Service = null;
+    }
+    if (typeChanged && config.type === 'pcsc') {
+      nfcService = null;
+      nfcInitFailedAt = 0;
+    }
+    if (config.type !== undefined) readerConfig.type = config.type;
+    if (config.pm3Path !== undefined) readerConfig.pm3Path = config.pm3Path;
+    if (config.pm3ComPort !== undefined) readerConfig.pm3ComPort = config.pm3ComPort;
+  }
+  return readerConfig;
+});
+
 // IPC handlers: RFID
 ipcMain.handle('rfid-write', async (_event, { materialCode, colorCode, manufacturerCode }) => {
   if (isBusy) return { success: false, messageKey: 'busy' };
   isBusy = true;
   try {
-    await getNfcService({ forceRetry: true }).writeTag(
+    await getActiveService({ forceRetry: true }).writeTag(
       parseInt(materialCode, 10),
       parseInt(colorCode, 10),
       parseInt(manufacturerCode || 1, 10)
@@ -203,7 +254,7 @@ ipcMain.handle('rfid-read', async () => {
   if (isBusy) return { success: false, messageKey: 'busy' };
   isBusy = true;
   try {
-    const data = await getNfcService({ forceRetry: true }).readTag();
+    const data = await getActiveService({ forceRetry: true }).readTag();
     return { success: true, data };
   } catch (err) {
     return { success: false, messageKey: toMessageKey(err), details: err && err.message ? String(err.message) : String(err) };
@@ -213,8 +264,7 @@ ipcMain.handle('rfid-read', async () => {
 });
 
 ipcMain.handle('rfid-status', () => {
-  // Do not initialize NFC on status polling; keep startup fast even without reader/driver.
-  const svc = tryGetNfcService();
+  const svc = tryGetActiveService();
   if (!svc) {
     return { connected: false, readerName: null, cardPresent: false, uid: null };
   }
@@ -224,9 +274,8 @@ ipcMain.handle('rfid-auto', async (_event, { enable }) => {
   autoEnabled = !!enable;
 
   if (autoEnabled) {
-    // Auto-read should never block the UI: try to init NFC, otherwise fail fast.
     try {
-      const svc = getNfcService({ forceRetry: true });
+      const svc = getActiveService({ forceRetry: true });
       startAutoLoop();
 
       // If a tag is already present, try a first read immediately
